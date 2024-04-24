@@ -19,7 +19,22 @@ app.get("/tasks", (req, res) => {
   }
 });
 
-
+app.post("/tasks", (req, res) => {
+  // create a new task list
+  try {
+    const newTask = {
+      id: task.length + 1,
+      tittle: req.body.tittle,
+      description: req.body.description,
+      status: req.body.status,
+    };
+    task.push(newTask);
+    fs.writeFileSync("database.json", JSON.stringify(task));
+    res.status(201).send(task);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
 
 app.listen(3000, () => {
   console.log("Server is running on port 3000");
