@@ -1,38 +1,63 @@
 [
   {
+    "id": 1,
+    "tittle": "The Shawshank Redemption",
+    "description": "Two imprisoned",
+    "status": "completed"
+  },
+  {
+    "id": 2,
+    "tittle": "The Godfather",
+    "description": "The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.",
+    "status": "completed"
+  },
+  {
     "id": 3,
-    "description": "Two ",
-    "status": "active"
+    "tittle": "The Dark Knight",
+    "description": "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.",
+    "status": "completed"
   },
-  {
+ {
     "id": 4,
-    "description": "Two ",
-    "status": "active"
+    "tittle": "The Godfather: Part II",
+    "description": "The early life and career of Vito Corleone in 1920s New York City is portrayed, while his son, Michael, expands and tightens his grip on the family crime syndicate.",
+    "status": "in-progress"
+ },
+  {
+      "id": 5,
+      "tittle": "The Lord of the Rings: The Return of the King",
+      "description": "Gandalf and Aragorn lead the war against Sauron's army to draw his gaze from Frodo and Sam as they approach Mount Doom with the One Ring.",
+      "status": "in-progress"
   },
   {
-    "id": 5,
-    "description": "Two ",
-    "status": ""
+      "id": 6,
+      "tittle": "Pulp Fiction",
+      "description": "The lives of two mob hitmen, a boxer, a gangster and his wife, and a pair of diner bandits intertwine in four tales of violence and redemption.",
+      "status": "in-progress"
   },
   {
-    "id": 6,
-    "description": "Two "
+      "id": 7,
+      "tittle": "The Lord of the Rings: The Fellowship of the Ring",
+      "description": "A meek Hobbit from the Shire and eight companions set out on a journey to destroy the powerful One Ring and save Middle-earth from the Dark Lord Sauron.",
+      "status": "in-progress"
   },
   {
-    "id": 8,
-    "description": "Two ",
-    "status": "active"
+      "id": 8,
+      "tittle": "Forrest Gump",
+      "description": "The presidencies of Kennedy and Johnson, the events of Vietnam, Watergate, and other historical events unfold from the perspective of an Alabama",
+      "status": "todo"
   },
   {
-    "id": 8,
-    "title": "The ",
-    "description": "Two ",
-    "status": "active"
+      "id": 9,
+      "tittle": "Inception",
+      "description": "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.",
+      "status": "todo"
   },
   {
-    "id": 9,
-    "title": "The ",
-    "description": "Two ",
-    "status": "active"
+      "id": 10,
+      "tittle": "The Lord of the Rings: The Two Towers",
+      "description": "While Frodo and Sam edge closer to Mordor with the help of the shifty Gollum, the divided fellowship makes a stand against Sauron's new ally, Saruman, and his hordes of Isengard.",
+      "status": "todo"
   }
+
 ]
