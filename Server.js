@@ -36,6 +36,26 @@ app.post("/tasks", (req, res) => {
   }
 });
 
+app.put("/tasks/:id", (req, res) => {
+    // update a task list
+    try {
+        const id = req.params.id;
+        const updateTask = {
+        id: id,
+        tittle: req.body.tittle,
+        description: req.body.description,
+        status: req.body.status,
+        };
+        task[id - 1] = updateTask;
+        fs.writeFileSync("database.json", JSON.stringify(task));
+        res.status(200).send(task);
+    } catch (err) {
+        res.status(500).send(err);
+    }
+    });
+
+    
+
 app.listen(3000, () => {
   console.log("Server is running on port 3000");
 });
