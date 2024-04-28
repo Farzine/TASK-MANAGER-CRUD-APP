@@ -35,13 +35,13 @@ Each task consists of the following attributes:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/task-manager.git
+   git clone https://github.com/Farzine/TASK-MANAGER-CRUD-APP.git
 2. Install dependencies:
    ```bash
     npm install
 3. Start the server:
    ```bash
-    node Server.js
+    npm run start
 3. Usage
  - Use a tool like Postman or cURL to send HTTP requests to the defined routes.
  - Follow the API documentation provided above to perform various operations on tasks.
