@@ -4,6 +4,8 @@ const bodyParser = require("body-parser");
 const app = express();
 const fs = require("fs");
 
+
+
 app.use(bodyParser.json());
 
 // Route handler
@@ -17,14 +19,19 @@ const validateTask = (req, res, next) => {
   next();
 };
 
-// lists routes
+const pool = require("./db");
+
+// get all todo
 app.get("/tasks", (req, res) => {
-  // get all tasks lists
-  try {
-    res.status(200).send(task);
-  } catch (err) {
-    res.status(500).send(err).json({ message: "Task cannot be fetched" });
-  }
+  let sql = "SELECT * FROM tasks";
+ 
+  pool.query(sql, (err, result) => {
+    if (err) {
+      console.error("Error fetching tasks:", err);
+      return res.status(500).json({ error: "Internal Server Error" });
+    }
+    res.json(result);
+  });
 });
 
 app.post("/tasks", validateTask, (req, res) => {
