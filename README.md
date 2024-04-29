@@ -1,47 +1,160 @@
-# Task Manager CRUD App
+# Task Manager CRUD APP BACKEND
 
-A simple Task Manager application built using Node.js and Express.js, allowing users to manage their tasks effectively.
+Brief project description.
 
-## Features
+## Users Routes
 
-- **CRUD Operations**: Perform Create, Read, Update, and Delete operations on tasks.
-- **In-Memory Storage**: Utilizes in-memory storage (arrays) instead of a traditional database for storing task data.
-- **Error Handling**: Proper error handling for CRUD operations to ensure smooth functioning of the application.
+### Register a New User
 
-## Task Model
+- **Method**: POST
+- **URL**: `/user/register`
+- **Description**: Register a new user.
+- **Body**:
+  - name: String
+  - email: String
+  - password: String (hashed securely using bcrypt)
+  - role: String
+- **Response**:
+  - message: 'User created successfully'
 
-Each task consists of the following attributes:
-- **ID**: Unique identifier for the task.
-- **Title**: Name of the task.
-- **Description**: Optional details about the task.
-- **Status**: Current status of the task (e.g., "To Do", "In Progress", "Completed").
+### Login to the System
 
-## Routes
+- **Method**: POST
+- **URL**: `/user/login`
+- **Description**: Login to the system.
+- **Body**:
+  - email: String
+  - password: String
+- **Response**:
+  - message: "Login successful"
+  - token: <JWT Token>
 
-- **GET /tasks**: Retrieve all tasks.
-- **POST /tasks**: Create a new task.
-- **GET /tasks/:id**: Retrieve a specific task by ID.
-- **PUT /tasks/:id**: Update a task by ID.
-- **DELETE /tasks/:id**: Delete a task by ID.
+### Update a User
 
-## Additional Features (Optional)
+- **Method**: PUT
+- **URL**: `/user/:user_id`
+- **Description**: Update a user.
+- **Body**:
+  - name: String
+  - email: String
+  - password: String (hashed securely using bcrypt)
+  - role: String
+- **Response**:
+  - message: 'User updated successfully'
 
-- **Filtering and Sorting**: Organize tasks based on status or other criteria.
-- **Validation**: Ensure required fields are provided when creating or updating tasks.
-- **Status Change**: Allow users to mark tasks as completed or change their status.
-- **Search Functionality**: Find tasks by title or description.
+### Delete a User
 
-## Installation
+- **Method**: DELETE
+- **URL**: `/user/:user_id`
+- **Description**: Delete a user.
+- **Response**:
+  - message: 'User deleted successfully'
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/Farzine/TASK-MANAGER-CRUD-APP.git
-2. Install dependencies:
-   ```bash
-    npm install
-3. Start the server:
-   ```bash
-    npm run start
-3. Usage
- - Use a tool like Postman or cURL to send HTTP requests to the defined routes.
- - Follow the API documentation provided above to perform various operations on tasks.
+### Get all Users
+
+- **Method**: GET
+- **URL**: `/user`
+- **Description**: Get all user.
+- **Response**:
+  - get all users json file
+
+
+## Tasks Routes
+
+
+### Get all Tasks
+
+- **Method**: GET
+- **URL**: `/tasks`
+- **Description**: Get all task.
+- **Response**:
+  - task json file
+
+### Get a Task by Id
+
+- **Method**: GET
+- **URL**: `/tasks/:id`
+- **Description**: Get a task by ID
+- **Response**:
+  - tasks json file
+
+### Add Task
+
+- **Method**: POST
+- **URL**: `/tasks`
+- **Description**: Add Task.
+- **Body**:
+  - title: String
+  - description: String
+  - status: String 
+- **Response**:
+  - message: 'Task added successfully'
+
+### Update Task
+
+- **Method**: PUT
+- **URL**: `/tasks/:id`
+- **Description**: Update Task.
+- **Body**:
+  - title: String
+  - description: String
+  - status: String 
+- **Response**:
+  - show updated task in json file
+
+### Delete Task
+
+- **Method**: DELETE
+- **URL**: `/tasks/:id`
+- **Description**: Delete Task.
+- **Body**:
+  - title: String
+  - description: String
+  - status: String 
+- **Response**:
+  - message: 'Task deleted successfully'
+
+
+## Database Schema
+
+![Database Schema](database_schema.png)
+
+Description of your database schema.
+
+### Users Table
+
+- user_id: INT (Primary Key)
+- name: VARCHAR
+- email: VARCHAR
+- password: VARCHAR (hashed)
+- role: VARCHAR
+
+### Tasks Table
+
+- id: INT (Primary Key)
+- title: VARCHAR
+- description: VARCHAR
+- status: VARCHAR
+- user_id: INT (Foreign Key referencing Users Table)
+
+## Technologies Used
+
+- Node.js
+- MySQL
+- JWT (JSON Web Token)
+- Bcrypt (for password hashing)
+- Express.js (for routing)
+
+
+## Setup Instructions
+
+1. Clone the repository.
+2. Install dependencies (`npm install`).
+3. Set up the database.
+4. Run the application (`npm run start`).
+
+## Author
+
+MD.Farzine Hossen
+
+

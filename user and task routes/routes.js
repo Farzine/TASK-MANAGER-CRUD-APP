@@ -1,22 +1,20 @@
 const express = require("express");
-const db = require("./db");
+const db = require("../db");
 
 const router = express.Router();
 
 //get all tasks
 // http://localhost:3000/tasks
 router.get("/tasks", (req, res) => {
-    const sql = "SELECT * FROM tasks";
-    db.query(sql, (err, result) => {
-        if (err) {
-            console.error("Error fetching tasks:", err);
-            return res.status(500).json({ error: "Internal Server Error" });
-        }
-        res.json(result);
-        }
-    );
+  const sql = "SELECT * FROM tasks";
+  db.query(sql, (err, result) => {
+    if (err) {
+      console.error("Error fetching tasks:", err);
+      return res.status(500).json({ error: "Internal Server Error" });
+    }
+    res.json(result);
+  });
 });
-
 
 // get tasks by id
 // http://localhost:3000/tasks/0
@@ -35,7 +33,6 @@ router.get("/tasks/:id", (req, res) => {
   });
 });
 
-
 // Insert task into "tasks" table
 /*
 request body = 
@@ -48,10 +45,10 @@ request body =
 */
 router.post("/tasks", (req, res) => {
   // Extract task data from request body
-  const { user_id, title, description, status } = req.body;
+  const {  title, description, status } = req.body;
 
   const insertTaskQuery =
-    "INSERT INTO tasks (user_id, title, description, status) VALUES (?, ?, ?, ?)";
+    "INSERT INTO tasks ( title, description, status) VALUES (?, ?, ?, ?)";
   db.query(
     insertTaskQuery,
     [user_id, title, description, status],
@@ -66,8 +63,6 @@ router.post("/tasks", (req, res) => {
     }
   );
 });
-
-
 
 // Update task by id
 /*
@@ -117,10 +112,9 @@ router.delete("/tasks/:id", (req, res) => {
     if (result.affectedRows === 0) {
       return res.status(404).json({ error: "Task not found" });
     }
-    res.sendStatus(204);
+    res.sendStatus(204).json({ message: "Task deleted successfully" });
   });
 });
-
 
 // sort tasks by status, sortBy, search
 router.get("/tasks", (req, res) => {

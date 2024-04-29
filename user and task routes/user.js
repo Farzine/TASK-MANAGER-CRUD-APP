@@ -1,5 +1,5 @@
 const express = require("express");
-const db = require("./db");
+const db = require("../db");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const router = express.Router();
@@ -8,7 +8,7 @@ const { check, validationResult } = require("express-validator");
 
 // get all users
 // http://localhost:3000/
-router.get("/", (req, res) => {
+router.get("/user", (req, res) => {
   db.query("SELECT * FROM users", (err, result) => {
     if (err) {
       console.error("Error fetching users:", err);
@@ -30,7 +30,7 @@ router.get("/", (req, res) => {
 }
 */
 router.post(
-  "/register",
+  "/user/register",
   [
     check("name", "Name is required").not().isEmpty(),
     check("email", "Please include a valid email").isEmail(),
@@ -80,7 +80,7 @@ router.post(
     "password": "123456"
 }
 */
-router.post("/login", async (req, res) => {
+router.post("/user/login", async (req, res) => {
   const { email, password } = req.body;
 
   // Check if email and password are provided
@@ -121,6 +121,7 @@ router.post("/login", async (req, res) => {
 
       jwt.sign(payload, "mytoken", { expiresIn: "1h" }, (err, token) => {
         if (err) throw err;
+        res.status(201).json({ message: "Login successful" });
         res.json({ token });
       });
     }
@@ -137,7 +138,7 @@ router.post("/login", async (req, res) => {
     "role": "developer"
 }
 */
-router.put("/:user_id", (req, res) => {
+router.put("/user/:user_id", (req, res) => {
   const userId = req.params.user_id;
   const { name, email, password, role } = req.body;
 
@@ -192,7 +193,7 @@ router.put("/:user_id", (req, res) => {
 
 
 // Delete a user
-router.delete("/:user_id", (req, res) => {
+router.delete("/user/:user_id", (req, res) => {
   const userId = req.params.user_id;
   db.query("DELETE FROM users WHERE user_id = ?", [userId], (err, result) => {
     if (err) {
