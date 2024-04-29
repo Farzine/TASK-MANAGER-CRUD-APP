@@ -18,7 +18,6 @@ router.get("/", (req, res) => {
   });
 });
 
-
 // Register a new user
 // http://localhost:3000/register
 /* request body =
@@ -73,66 +72,127 @@ router.post(
   }
 );
 
-
-// Login user
+// Login Endpoint
+// http://localhost:3000/login
+/* request body =
+{  
+    "email": "abc@gmail.com",
+    "password": "123456"
+}
+*/
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
-  
 
-  try {
-    // Check if user exists
-    const result = await db.query("SELECT * FROM users WHERE email = ?", [email]);
-    const user = result[2];
-    console.log(user);
-    if (!user) {
-      return res.status(400).json({ error: "Invalid credentials" });
-    }
-
-    // user = user[0];
-
-
-    // Check password
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res.status(400).json({ error: "Invalid credentials" });
-    }
-
-    // Generate JWT token
-    const payload = {
-      user: {
-        id: user.user_id,
-      },
-    };
-    
-    jwt.sign(payload, "mytoken", { expiresIn: "1h" }, (err, token) => {
-      if (err) throw err;
-      res.json({ token });
-    });
-  } catch (err) {
-    console.error("Error logging in user:", err);
-    res.status(500).json({ error: "Internal Server Error" });
+  // Check if email and password are provided
+  if (!email || !password) {
+    return res.status(400).json({ message: "Email and password are required" });
   }
-});
 
-// Update a user
-router.put("/:userid", (req, res) => {
-  const { name, email, password, role } = req.body;
-  const userId = req.params.user_id;
-  db.query(
-    "UPDATE users SET name = ?, email = ?, password = ?, role = ? WHERE user_id = ?",
-    [name, email, password, role, userId],
-    (err, result) => {
-      if (err) {
-        console.error("Error updating user:", err);
-        return res.status(500).json({ error: "Internal Server Error" });
+  // Fetch user from database by email
+  await db.query(
+    "SELECT * FROM users WHERE email = ?",
+    [email],
+    (error, results) => {
+      if (error) {
+        console.error("Error fetching user:", error);
+        return res.status(500).json({ message: "Internal server error" });
       }
-      res.json({ message: "User updated successfully" });
+
+      if (results.length === 0) {
+        return res.status(401).json({ message: "Invalid email or password" });
+      }
+
+      const user = results[0];
+      console.log(user.password);
+
+      // Check if password is correct
+      const isMatch = bcrypt.compare(password, user.password);
+      console.log(password);
+      if (!isMatch) {
+        return res.status(400).json({ error: "Invalid credentials" });
+      }
+
+      // Generate JWT token
+      const payload = {
+        user: {
+          id: user.user_id,
+        },
+      };
+
+      jwt.sign(payload, "mytoken", { expiresIn: "1h" }, (err, token) => {
+        if (err) throw err;
+        res.json({ token });
+      });
     }
   );
 });
 
+// Update a user
+// http://localhost:3000/userid
+/* request body =
+{
+    "name": "Hossen",
+    "email": "dfh@gmail.com"
+    "password": "678910",
+    "role": "developer"
+}
+*/
+router.put("/:user_id", (req, res) => {
+  const userId = req.params.user_id;
+  const { name, email, password, role } = req.body;
+
+  // Check if user ID is provided
+  if (!userId) {
+    return res.status(400).json({ message: "User ID is required" });
+  }
+
+  // Fetch user from database by ID
+  db.query(
+    "SELECT * FROM users WHERE user_id = ?",
+    [userId],
+    (error, results) => {
+      if (error) {
+        console.error("Error fetching user:", error);
+        return res.status(500).json({ message: "Internal server error" });
+      }
+
+      if (results.length === 0) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      const user = results[0];
+   
+
+      // Update user data
+      const updatedUser = {
+        name: name || user.name,
+        email: email || user.email,
+        password: password ? bcrypt.hashSync(password, 10) : user.password, // Hash new password if provided
+        role: role || user.role,
+      };
+
+      // Update user in the database
+      db.query(
+        "UPDATE users SET ? WHERE user_id = ?",
+        [updatedUser, userId],
+        (err, result) => {
+          if (err) {
+            console.error("Error updating user:", err);
+            return res.status(500).json({ message: "Internal server error" });
+          }
+
+          res.json({ message: "User updated successfully" });
+        }
+      );
+    }
+  );
+});
+
+
+
+
 // Delete a user
-router.delete("/:userid", (req, res) => {
+router.delete("/:user_id", (req, res) => {
   const userId = req.params.user_id;
   db.query("DELETE FROM users WHERE user_id = ?", [userId], (err, result) => {
     if (err) {
